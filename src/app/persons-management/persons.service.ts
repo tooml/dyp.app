@@ -6,6 +6,7 @@ import { map } from 'rxjs/operators';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { environment } from '../../environments/environment';
 import { CreatePersonRequestDto } from '../contracts/dto/CreatePersonRequestDto';
+import { UpdatePersonRequestDto } from '../contracts/dto/UpdatePersonRequestDto';
 
 @Injectable({
   providedIn: 'root'
@@ -21,19 +22,19 @@ export class PersonsService {
       .pipe(map(response => response as Person[]));
   }
 
-  createPerson(request: CreatePersonRequestDto): Observable<any> {
+  createPerson(request: CreatePersonRequestDto): Observable<Person> {
     const headers = new HttpHeaders().set('Accept', 'application/json');
 
-    return this.http.post<string>(this.API_ROOT + '/api/v1/persons/', request, {
-      headers
-    });
+    return this.http.post<Person>(this.API_ROOT + '/api/v1/persons/', request, { headers }).pipe(
+      map(response => response as Person)
+    );
   }
 
-  updatePerson(request: CreatePersonRequestDto): Observable<any> {
+  updatePerson(request: UpdatePersonRequestDto): Observable<Person> {
     const headers = new HttpHeaders().set('Accept', 'application/json');
 
-    return this.http.post<string>(this.API_ROOT + '/api/v1/persons/', request, {
-      headers
-    });
-  }
+    return this.http.put<Person>(this.API_ROOT + '/api/v1/persons/', request, { headers }).pipe(
+      map(response => response as Person)
+    );
+    }
 }

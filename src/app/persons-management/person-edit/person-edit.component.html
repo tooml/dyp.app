@@ -9,7 +9,7 @@
         <ion-col size="6"> Vorname: </ion-col>
         <ion-col size="6">
           <ion-input
-            [(ngModel)]="person.firstName"
+            [ngModel]="person?.firstName" (ngModelChange)="person.firstName = $event"
             placeholder="Vorname eingeben"
           ></ion-input>
         </ion-col>
@@ -18,7 +18,7 @@
         <ion-col size="6"> Nachname </ion-col>
         <ion-col size="6">
           <ion-input
-            [(ngModel)]="person.lastName"
+            [ngModel]="person?.lastName" (ngModelChange)="person.lastName = $event"
             placeholder="Nachname eingeben"
           ></ion-input>
         </ion-col>
