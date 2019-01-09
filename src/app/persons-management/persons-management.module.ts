@@ -3,11 +3,11 @@ import { CommonModule } from '@angular/common';
 import { PersonCardComponent } from './person-card/person-card.component';
 import { PersonEditComponent } from './person-edit/person-edit.component';
 import { PersonsListComponent } from './persons-list/persons-list.component';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { IonicModule } from '@ionic/angular';
 import { RouterModule, Routes } from '@angular/router';
 import { NgxsModule } from '@ngxs/store';
-import { PersonState } from './+state/state/person.state';
+import { PersonState } from '../provider/person-management-store/person.state';
 
 const routes: Routes = [
   {
@@ -25,10 +25,8 @@ const routes: Routes = [
     CommonModule,
     FormsModule,
     IonicModule,
-    NgxsModule.forRoot([
-      PersonState
-    ]),
-    RouterModule.forChild(routes)
+    RouterModule.forChild(routes),
+    ReactiveFormsModule
   ],
   declarations: [PersonsListComponent, PersonCardComponent, PersonEditComponent]
 })

@@ -2,8 +2,10 @@ import { Component } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Router } from '@angular/router';
 import { Person } from 'src/app/contracts/model/Person';
-import { Store, Select } from '@ngxs/store';
-import { PersonState } from '../+state/state/person.state';
+import { Select, Store } from '@ngxs/store';
+import { PersonState } from '../../provider/person-management-store/person.state';
+import { SelectPerson } from '../../provider/person-management-store/actions/persons.actions';
+import { v4 as uuid } from 'uuid';
 
 @Component({
   selector: 'app-persons-list',
@@ -17,6 +19,12 @@ export class PersonsListComponent {
   constructor(private router: Router, private store: Store) {}
 
   addPerson() {
-   this.router.navigateByUrl('/persons/0');
+    const person = this.createNewPerson();
+    this.store.dispatch(new SelectPerson({ person: person, isNewPerson: true }));
+    this.router.navigate(['persons', person.id]);
+  }
+
+  createNewPerson(): Person {
+    return { id: uuid(), firstName: '', lastName: '', turnierParticipations: 0, games: 0, wins: 0, looses: 0, competitor: false };
   }
 }

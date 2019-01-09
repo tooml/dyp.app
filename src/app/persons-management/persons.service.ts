@@ -26,15 +26,13 @@ export class PersonsService {
     const headers = new HttpHeaders().set('Accept', 'application/json');
 
     return this.http.post<Person>(this.API_ROOT + '/api/v1/persons/', request, { headers }).pipe(
-      map(response => response as Person)
-    );
+      map(response => response as Person));
   }
 
   updatePerson(request: UpdatePersonRequestDto): Observable<Person> {
     const headers = new HttpHeaders().set('Accept', 'application/json');
 
     return this.http.put<Person>(this.API_ROOT + '/api/v1/persons/', request, { headers }).pipe(
-      map(response => response as Person)
-    );
+      map(response => response as Person));
     }
 }

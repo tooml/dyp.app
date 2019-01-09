@@ -1,5 +1,7 @@
 {
   "name": "dyp.app",
-  "integrations": {},
+  "integrations": {
+    "cordova": {}
+  },
   "type": "angular"
 }

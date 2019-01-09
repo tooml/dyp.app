@@ -1,40 +1,74 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Person } from 'src/app/contracts/model/Person';
-import { ActivatedRoute } from '@angular/router';
 import { Store } from '@ngxs/store';
-import { PersonState } from '../+state/state/person.state';
-import { AddPerson, UpdatePerson } from '../+state/actions/persons.actions';
+import { PersonState } from '../../provider/person-management-store/person.state';
+import { NewPerson, UpdatePerson, SelectPerson } from '../../provider/person-management-store/actions/persons.actions';
+import { Validators, FormGroup, FormBuilder } from '@angular/forms';
+import { ToastController } from '@ionic/angular';
+
+enum PersonEditMode {
+  NewPerson = 1,
+  UpdatePerson = 2,
+}
 
 @Component({
   selector: 'app-person-edit',
   templateUrl: './person-edit.component.html',
   styleUrls: ['./person-edit.component.scss']
 })
-export class PersonEditComponent {
+export class PersonEditComponent implements OnInit {
 
-  person: Person;
+  private editMode: PersonEditMode;
 
-  constructor(private route: ActivatedRoute, private store: Store) {
-    const personId = this.route.snapshot.params.personId;
-    this.loadPerson(personId);
+  private person: Person;
+  personEidtForm: FormGroup;
+
+  constructor(private formBuilder: FormBuilder, private store: Store, public toastController: ToastController) {}
+
+  ngOnInit(): void {
+    this.store.select(PersonState.getSelectedPersons).subscribe(state => {
+      this.person = state.selectedPerson;
+      if (state.newPerson) {
+        this.editMode = PersonEditMode.NewPerson;
+      } else {
+        this.editMode = PersonEditMode.UpdatePerson;
+      }
+    });
+
+    this.personEidtForm = this.formBuilder.group({
+        firstName: ['', [ Validators.required, Validators.minLength(3) ] ],
+        lastName: [''],
+      });
   }
 
-  loadPerson(personId: string) {
-    if (personId === '0') {
-      this.person = { id: '', firstName: '', lastName: ''};
-    } else {
-      this.store.select(PersonState.person(personId)).subscribe(person => {
-        this.person = person;
-      });
-    }
+  savePersonIntegration() {
+    this.savePerson();
+    this.showMessage('Saved');
+    this.store.dispatch(new SelectPerson({ person: this.person, isNewPerson: false }));
   }
 
   savePerson() {
-    if (this.person.id === '') {
-      this.store.dispatch(new AddPerson(this.person));
-    } else {
-      console.log('update');
-      this.store.dispatch(new UpdatePerson(this.person));
+    switch (this.editMode) {
+      case PersonEditMode.NewPerson: {
+        this.store.dispatch(new NewPerson(this.person));
+        break;
+      }
+      case PersonEditMode.UpdatePerson: {
+        this.store.dispatch(new UpdatePerson(this.person));
+        break;
+      }
     }
+  }
+
+  async showMessage(text: string) {
+    const toast = await this.toastController.create({
+      message: text,
+      duration: 1500,
+      position: 'top',
+      animated: true,
+      color: 'success',
+      translucent: true
+    });
+    toast.present();
   }
 }
