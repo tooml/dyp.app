@@ -16,8 +16,12 @@ const routes: Routes = [
     loadChildren: './persons-management/persons-management.module#PersonsManagementModule'
   },
   {
-    path: 'turnier',
-    loadChildren: './turnier-management/turnier-management.module#TurnierManagementModule'
+    path: 'create',
+    loadChildren: './tournament-management/tournament-management.module#TournamentManagementModule'
+  },
+  {
+    path: 'tournament',
+    loadChildren: './tournament-tabs/tournament-tabs.module#TournamentTabsModule'
   }
 ];
 

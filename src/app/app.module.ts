@@ -1,5 +1,5 @@
 import { HttpClientModule } from '@angular/common/http';
-import { NgModule, ErrorHandler } from '@angular/core';
+import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { RouteReuseStrategy } from '@angular/router';
 
@@ -13,9 +13,10 @@ import { AppRoutingModule } from './app-routing.module';
 import { NgxsReduxDevtoolsPluginModule } from '@ngxs/devtools-plugin';
 import { NgxsLoggerPluginModule } from '@ngxs/logger-plugin';
 import { NgxsModule } from '@ngxs/store';
-import { MyErrorHandler } from './persons-management/+state/error-handling/error-handler';
-import { TurnierOptionState } from './provider/turnier-management-store/turnier.management.state';
+import { TournamentOptionState } from './provider/tournament-management-store/tournament.management.state';
 import { PersonState } from './provider/person-management-store/person.state';
+import { environment } from 'src/environments/environment';
+import { TournamentState } from './provider/tournament-store/tournament.state';
 
 @NgModule({
   declarations: [AppComponent],
@@ -25,20 +26,18 @@ import { PersonState } from './provider/person-management-store/person.state';
     HttpClientModule,
     IonicModule.forRoot(),
     AppRoutingModule,
-    NgxsModule.forRoot(),
     NgxsReduxDevtoolsPluginModule.forRoot(),
     NgxsLoggerPluginModule.forRoot(),
-    NgxsModule.forRoot([
-      TurnierOptionState,
-      PersonState
-    ]),
+    NgxsModule.forRoot(
+      [TournamentState, TournamentOptionState, PersonState], { developmentMode: !environment.production }
+    ),
   ],
   providers: [
     StatusBar,
     SplashScreen,
-    { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
-    { provide: ErrorHandler, useClass: MyErrorHandler }
+    { provide: RouteReuseStrategy, useClass: IonicRouteStrategy }
   ],
   bootstrap: [AppComponent]
 })
+
 export class AppModule {}

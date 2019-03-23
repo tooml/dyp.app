@@ -6,8 +6,6 @@ import { PersonsListComponent } from './persons-list/persons-list.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { IonicModule } from '@ionic/angular';
 import { RouterModule, Routes } from '@angular/router';
-import { NgxsModule } from '@ngxs/store';
-import { PersonState } from '../provider/person-management-store/person.state';
 
 const routes: Routes = [
   {
@@ -21,13 +19,17 @@ const routes: Routes = [
 ];
 
 @NgModule({
+  declarations: [
+    PersonsListComponent,
+    PersonCardComponent,
+    PersonEditComponent
+  ],
   imports: [
     CommonModule,
     FormsModule,
     IonicModule,
     RouterModule.forChild(routes),
     ReactiveFormsModule
-  ],
-  declarations: [PersonsListComponent, PersonCardComponent, PersonEditComponent]
+  ]
 })
 export class PersonsManagementModule { }

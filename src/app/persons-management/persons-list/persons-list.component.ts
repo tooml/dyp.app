@@ -25,6 +25,6 @@ export class PersonsListComponent {
   }
 
   createNewPerson(): Person {
-    return { id: uuid(), firstName: '', lastName: '', turnierParticipations: 0, games: 0, wins: 0, looses: 0, competitor: false };
+    return { id: uuid(), firstName: '', lastName: '', turnierParticipations: 0, games: 0, wins: 0, looses: 0 };
   }
 }

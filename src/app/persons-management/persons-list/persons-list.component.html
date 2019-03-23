@@ -8,6 +8,7 @@
 </ion-header>
 
 <ion-content>
+
   <ion-list lines="none" *ngFor="let person of persons | async">
     <app-person-card [person]="person"></app-person-card>
   </ion-list>
@@ -17,4 +18,5 @@
       <ion-icon name="add"></ion-icon>
     </ion-fab-button>
   </ion-fab>
+
 </ion-content>

@@ -6,5 +6,4 @@ export interface Person {
     games: number;
     wins: number;
     looses: number;
-    competitor: boolean;
 }

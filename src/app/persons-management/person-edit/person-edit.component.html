@@ -1,117 +1,131 @@
-<ion-card>
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+    <ion-title> Optionen </ion-title>
+  </ion-toolbar>
+</ion-header>
 
-  <ion-card-header>
-    <ion-card-title>Bearbeiten Bild</ion-card-title>
-  </ion-card-header>
 
-  <form [formGroup]="personEidtForm">
-    <ion-grid>
+<ion-content>
 
-      <ion-row>
-        <ion-col size="6">
-          <ion-item lines="none">
-            <ion-label>
-              Vorname:
-            </ion-label>
-          </ion-item>
-        </ion-col>
-        <ion-col size="6">
-          <ion-item>
-            <ion-input [(ngModel)]="person.firstName" formControlName="firstName" class="form-control" placeholder="Vorname eingeben"></ion-input>
-          </ion-item>
-        </ion-col>
-      </ion-row>
+  <ion-card>
 
-      <ion-row>
-        <ion-col size="6">
-          <ion-item lines="none">
-            <ion-label>
-              Nachname:
-            </ion-label>
-          </ion-item>
-        </ion-col>
-        <ion-col size="6">
-          <ion-item>
-            <ion-input [(ngModel)]="person.lastName" formControlName="lastName" class="form-control" placeholder="Nachname eingeben"></ion-input>
-          </ion-item>
-        </ion-col>
-      </ion-row>
+    <ion-card-header>
+      <ion-card-title>Bearbeiten Bild</ion-card-title>
+    </ion-card-header>
 
-      <ion-row>
-        <ion-col size="6">
-          <ion-item lines="none">
-            <ion-label>
-              Tuniere:
-            </ion-label>
-          </ion-item>
-        </ion-col>
-        <ion-col size="6">
-          <ion-item lines="none">
-            <ion-label>
-              {{ person.turnierParticipations }}
-            </ion-label>
-          </ion-item>
-        </ion-col>
-      </ion-row>
+    <form [formGroup]="personEidtForm">
+      <ion-grid>
 
-      <ion-row>
-        <ion-col size="6">
-          <ion-item lines="none">
-            <ion-label>
-              Spiele:
-            </ion-label>
-          </ion-item>
-        </ion-col>
-        <ion-col size="6">
-          <ion-item lines="none">
-            <ion-label>
-              {{ person.games }}
-            </ion-label>
-          </ion-item>
-        </ion-col>
-      </ion-row>
+        <ion-row>
+          <ion-col size="6">
+            <ion-item lines="none">
+              <ion-label>
+                Vorname:
+              </ion-label>
+            </ion-item>
+          </ion-col>
+          <ion-col size="6">
+            <ion-item>
+              <ion-input formControlName="firstName" placeholder="Vorname eingeben" required></ion-input>
+            </ion-item>
+          </ion-col>
+        </ion-row>
 
-      <ion-row>
-        <ion-col size="6">
-          <ion-item lines="none">
-            <ion-label>
-              Gewonnen:
-            </ion-label>
-          </ion-item>
-        </ion-col>
-        <ion-col size="6">
-          <ion-item lines="none">
-            <ion-label>
-              {{ person.wins }}
-            </ion-label>
-          </ion-item>
-        </ion-col>
-      </ion-row>
+        <ion-row>
+          <ion-col size="6">
+            <ion-item lines="none">
+              <ion-label>
+                Nachname:
+              </ion-label>
+            </ion-item>
+          </ion-col>
+          <ion-col size="6">
+            <ion-item>
+              <ion-input formControlName="lastName" placeholder="Nachname eingeben"></ion-input>
+            </ion-item>
+          </ion-col>
+        </ion-row>
 
-      <ion-row>
-        <ion-col size="6">
-          <ion-item lines="none">
-            <ion-label>
-              Verloren:
-            </ion-label>
-          </ion-item>
-        </ion-col>
-        <ion-col size="6">
-          <ion-item lines="none">
-            <ion-label>
-              {{ person.looses }}
-            </ion-label>
-          </ion-item>
-        </ion-col>
-      </ion-row>
+        <ion-row>
+          <ion-col size="6">
+            <ion-item lines="none">
+              <ion-label>
+                Tuniere:
+              </ion-label>
+            </ion-item>
+          </ion-col>
+          <ion-col size="6">
+            <ion-item lines="none">
+              <ion-label>
+                {{ personStatistic.turnierParticipations }}
+              </ion-label>
+            </ion-item>
+          </ion-col>
+        </ion-row>
 
-    </ion-grid>
+        <ion-row>
+          <ion-col size="6">
+            <ion-item lines="none">
+              <ion-label>
+                Spiele:
+              </ion-label>
+            </ion-item>
+          </ion-col>
+          <ion-col size="6">
+            <ion-item lines="none">
+              <ion-label>
+                {{ personStatistic.games }}
+              </ion-label>
+            </ion-item>
+          </ion-col>
+        </ion-row>
 
-  </form>
-</ion-card>
+        <ion-row>
+          <ion-col size="6">
+            <ion-item lines="none">
+              <ion-label>
+                Gewonnen:
+              </ion-label>
+            </ion-item>
+          </ion-col>
+          <ion-col size="6">
+            <ion-item lines="none">
+              <ion-label>
+                {{ personStatistic.wins }}
+              </ion-label>
+            </ion-item>
+          </ion-col>
+        </ion-row>
 
-<ion-fab vertical="bottom" horizontal="end" slot="fixed">
-  <ion-fab-button (click)="savePersonIntegration()" [disabled]="!personEidtForm.valid">
-    <ion-icon name="checkmark"></ion-icon>
-  </ion-fab-button>
-</ion-fab>
+        <ion-row>
+          <ion-col size="6">
+            <ion-item lines="none">
+              <ion-label>
+                Verloren:
+              </ion-label>
+            </ion-item>
+          </ion-col>
+          <ion-col size="6">
+            <ion-item lines="none">
+              <ion-label>
+                {{ personStatistic.looses }}
+              </ion-label>
+            </ion-item>
+          </ion-col>
+        </ion-row>
+
+      </ion-grid>
+
+    </form>
+  </ion-card>
+
+  <ion-fab vertical="bottom" horizontal="end" slot="fixed">
+    <ion-fab-button (click)="savePersonIntegration()" [disabled]="!personEidtForm.valid">
+      <ion-icon name="checkmark"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
+
+</ion-content>

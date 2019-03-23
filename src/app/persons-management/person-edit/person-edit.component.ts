@@ -3,7 +3,7 @@ import { Person } from 'src/app/contracts/model/Person';
 import { Store } from '@ngxs/store';
 import { PersonState } from '../../provider/person-management-store/person.state';
 import { NewPerson, UpdatePerson, SelectPerson } from '../../provider/person-management-store/actions/persons.actions';
-import { Validators, FormGroup, FormBuilder } from '@angular/forms';
+import { Validators, FormGroup, FormControl } from '@angular/forms';
 import { ToastController } from '@ionic/angular';
 
 enum PersonEditMode {
@@ -20,41 +20,69 @@ export class PersonEditComponent implements OnInit {
 
   private editMode: PersonEditMode;
 
-  private person: Person;
-  personEidtForm: FormGroup;
+  personEidtForm = new FormGroup({
+    id: new FormControl(),
+    firstName: new FormControl('', [ Validators.required, Validators.minLength(3) ]),
+    lastName: new FormControl('')
+  });
 
-  constructor(private formBuilder: FormBuilder, private store: Store, public toastController: ToastController) {}
+  personStatistic = { turnierParticipations: 0,
+                      games: 0,
+                      wins: 0,
+                      looses: 0 };
+
+  constructor(private store: Store, public toastController: ToastController) {}
 
   ngOnInit(): void {
-    this.store.select(PersonState.getSelectedPersons).subscribe(state => {
-      this.person = state.selectedPerson;
-      if (state.newPerson) {
-        this.editMode = PersonEditMode.NewPerson;
-      } else {
-        this.editMode = PersonEditMode.UpdatePerson;
-      }
-    });
+    this.getPerson();
+  }
 
-    this.personEidtForm = this.formBuilder.group({
-        firstName: ['', [ Validators.required, Validators.minLength(3) ] ],
-        lastName: [''],
-      });
+  getPerson() {
+    this.store.select(PersonState.getSelectedPersons).subscribe(state => {
+      this.setFormValues(state.selectedPerson);
+      this.setStatisticValues(state.selectedPerson);
+      this.setEditMode(state.newPerson);
+    });
+  }
+
+  setEditMode(newPerson: boolean) {
+    if (newPerson) {
+      this.editMode = PersonEditMode.NewPerson;
+    } else {
+      this.editMode = PersonEditMode.UpdatePerson;
+    }
+  }
+
+  setFormValues(person: Person) {
+    this.personEidtForm.setValue({
+      id: person.id,
+      firstName: person.firstName,
+      lastName: person.lastName
+    });
+  }
+
+  setStatisticValues(person: Person) {
+    this.personStatistic = { turnierParticipations: person.turnierParticipations,
+                             games: person.games,
+                             wins: person.wins,
+                             looses: person.looses };
   }
 
   savePersonIntegration() {
     this.savePerson();
     this.showMessage('Saved');
-    this.store.dispatch(new SelectPerson({ person: this.person, isNewPerson: false }));
+    this.store.dispatch(new SelectPerson({ person: this.personEidtForm.value, isNewPerson: false }));
+    this.getPerson();
   }
 
   savePerson() {
     switch (this.editMode) {
       case PersonEditMode.NewPerson: {
-        this.store.dispatch(new NewPerson(this.person));
+        this.store.dispatch(new NewPerson(this.personEidtForm.value));
         break;
       }
       case PersonEditMode.UpdatePerson: {
-        this.store.dispatch(new UpdatePerson(this.person));
+        this.store.dispatch(new UpdatePerson(this.personEidtForm.value));
         break;
       }
     }

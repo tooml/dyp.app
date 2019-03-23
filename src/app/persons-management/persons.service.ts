@@ -11,6 +11,7 @@ import { UpdatePersonRequestDto } from '../contracts/dto/UpdatePersonRequestDto'
 @Injectable({
   providedIn: 'root'
 })
+
 export class PersonsService {
   API_ROOT = environment.apiRoot;
 
