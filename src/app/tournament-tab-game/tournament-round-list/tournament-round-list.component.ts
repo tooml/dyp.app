@@ -17,5 +17,4 @@ export class TournamentRoundListComponent {
 
   constructor(private store: Store) {
   }
-
 }

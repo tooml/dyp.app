@@ -1,12 +1,13 @@
 import { State, Action, StateContext, Selector } from '@ngxs/store';
 import { TournamentGameService } from 'src/app/tournament-tabs/tournament-game.service';
-import { TournamentReady } from './actions/tournament-actions';
-import { Tournament } from 'src/app/contracts/model/Tournament';
+import { TournamentReady, SelectMatch } from './actions/tournament-actions';
+import { Tournament, Match } from 'src/app/contracts/model/Tournament';
 
 
 
 export class TournamentStateModel {
     tournament: Tournament;
+    selectedMatch: Match;
 }
 
 @State<TournamentStateModel>({
@@ -25,6 +26,11 @@ export class TournamentState {
         return state.tournament.rounds;
     }
 
+    @Selector()
+    static getSelectedMatch(state: TournamentStateModel) {
+        return { selectedMatch: state.selectedMatch };
+    }
+
     constructor(private tournamentService: TournamentGameService) { }
 
     @Action(TournamentReady)
@@ -34,5 +40,11 @@ export class TournamentState {
             ...state,
             tournament: payload
         });
+    }
+
+    @Action(SelectMatch)
+    selectMatch(ctx: StateContext<TournamentStateModel>, { payload }: SelectMatch) {
+        const state = ctx.getState();
+             ctx.patchState({ ...state, selectedMatch: payload });
     }
 }

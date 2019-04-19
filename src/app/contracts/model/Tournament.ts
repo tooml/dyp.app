@@ -12,5 +12,6 @@ export interface Round {
 
 export interface Match {
     id: string;
-    name: string;
+    home: string;
+    away: string;
 }

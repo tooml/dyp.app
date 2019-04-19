@@ -23,7 +23,7 @@ export class TournamentGameService {
         const tournament: Tournament = {
           id: response.id,
           name: response.name,
-          rounds: [{ name: response.name, matches: [{ id: '', name: ''}] }]
+          rounds: [{ name: response.name, matches: response.round.matches }]
         };
         return tournament;
       }));

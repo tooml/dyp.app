@@ -1,23 +1,26 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { Match } from 'src/app/contracts/model/Tournament';
+import { Router, ActivatedRoute } from '@angular/router';
+import { Store } from '@ngxs/store';
+import { SelectMatch } from 'src/app/provider/tournament-store/actions/tournament-actions';
 
 @Component({
   selector: 'app-tournament-match',
   templateUrl: './tournament-match.component.html',
   styleUrls: ['./tournament-match.component.scss']
 })
-export class TournamentMatchComponent implements OnInit {
+export class TournamentMatchComponent {
 
-  match: Match;
-
-  home: string;
-  away: string;
+  @Input() match: Match;
 
   result_display = 'Ergebnis wählen';
 
-  constructor() { }
+  constructor(private router: Router, private store: Store) { }
 
-  ngOnInit() {
+  editMatchResult() {
+    this.store.dispatch(new SelectMatch(this.match));
+    // this.router.navigate(['edit'], {relativeTo: this.route});
+    // this.router.navigate(['tournament', 'game', 'edit'], { queryParams: { match: this.match }} );
+    this.router.navigate(['tournament', 'game', 'edit']);
   }
-
 }
