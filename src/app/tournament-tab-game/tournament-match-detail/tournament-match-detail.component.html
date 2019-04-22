@@ -1,15 +1,26 @@
 <ion-grid>
 
   <ion-row align-items-center>
-    <ion-col size="5">
-      {{ match.home }}
+    <ion-col size="3">
+      {{ home }}
     </ion-col>
     <ion-col size="2">
-      ion-col
+      {{ homeResult }}
     </ion-col>
-    <ion-col size="5">
-      {{ match.away }}
+    <ion-col size="2"> : </ion-col>
+    <ion-col size="2">
+      {{ awayResult }}
+    </ion-col>
+    <ion-col size="3">
+      {{ away }}
     </ion-col>
   </ion-row>
 
 </ion-grid>
+
+<ion-list *ngFor="let set of setResult; let i = index">
+  <app-tournament-match-set [result]="[i, set]" (voted)="onVoted($event)"></app-tournament-match-set>
+</ion-list>
+
+
+<ion-button (click)="test()" size="large">Large</ion-button>

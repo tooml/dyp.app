@@ -6,6 +6,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { TournamentRoundComponent } from './tournament-round/tournament-round.component';
 import { TournamentMatchComponent } from './tournament-match/tournament-match.component';
 import { TournamentMatchDetailComponent } from './tournament-match-detail/tournament-match-detail.component';
+import { TournamentMatchSetComponent } from './tournament-match-set/tournament-match-set.component';
 
 const routes: Routes = [
   {
@@ -22,7 +23,7 @@ const routes: Routes = [
 ];
 
 @NgModule({
-  declarations: [TournamentRoundListComponent, TournamentRoundComponent, TournamentMatchComponent, TournamentMatchDetailComponent],
+  declarations: [TournamentRoundListComponent, TournamentRoundComponent, TournamentMatchComponent, TournamentMatchDetailComponent, TournamentMatchSetComponent],
   imports: [
     CommonModule,
     IonicModule,

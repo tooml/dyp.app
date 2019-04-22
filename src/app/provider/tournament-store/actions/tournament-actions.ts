@@ -1,4 +1,4 @@
-import { Tournament, Match } from 'src/app/contracts/model/Tournament';
+import { Tournament, Match, SetResult } from 'src/app/contracts/model/Tournament';
 
 export class TournamentReady {
     static readonly type = '[TOURNAMENT] TournamentReady';
@@ -8,4 +8,9 @@ export class TournamentReady {
 export class SelectMatch {
     static readonly type = '[TOURNAMENT] SelectMatch';
     constructor(public payload: Match) {}
+}
+
+export class ChooseResult {
+    static readonly type = '[TOURNAMENT] ChooseResult';
+    constructor(public payload: { index: number, result: SetResult}) {}
 }

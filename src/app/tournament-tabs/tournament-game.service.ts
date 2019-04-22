@@ -1,10 +1,11 @@
+import { FixtureResponseDto, SetResponseDto } from './../contracts/dto/FixtureResponseDto';
 import { Injectable } from '@angular/core';
 import { CreateTournamentRequestDto } from '../contracts/dto/CreateTournamentRequestDto';
 import { Observable } from 'rxjs';
 import { CreateTournamentResponseDto } from '../contracts/dto/CreateTournamentResponseDto';
 import { HttpHeaders, HttpClient } from '@angular/common/http';
 import { environment } from 'src/environments/environment';
-import { Tournament } from '../contracts/model/Tournament';
+import { Tournament, Match, SetResult } from '../contracts/model/Tournament';
 import { map } from 'rxjs/operators';
 
 @Injectable({
@@ -12,6 +13,7 @@ import { map } from 'rxjs/operators';
 })
 
 export class TournamentGameService {
+
   API_ROOT = environment.apiRoot;
 
   constructor(private http: HttpClient) { }
@@ -23,9 +25,30 @@ export class TournamentGameService {
         const tournament: Tournament = {
           id: response.id,
           name: response.name,
-          rounds: [{ name: response.name, matches: response.round.matches }]
+          rounds: [{ name: response.name, matches: this.mapMatch(response.round.matches) }]
         };
         return tournament;
       }));
+  }
+
+  mapMatch(fixtures: FixtureResponseDto[]): Match[] {
+    return fixtures.map(fixture => {
+      const match: Match = {
+        id: fixture.id,
+        home: fixture.home,
+        away: fixture.away,
+        setsToWin:
+        fixture.setsToWin,
+        sets: this.mapSets(fixture.sets)
+      };
+      return match;
+    });
+  }
+
+  mapSets(sets: SetResponseDto[]): SetResult[] {
+    return sets.map(set => {
+      const result: SetResult = set.result.valueOf();
+      return result;
+    });
   }
 }
