@@ -1,5 +1,7 @@
+import { ID } from '@datorama/akita';
+
 export interface UpdatePersonRequestDto {
-    id: string;
+    id: ID;
     firstName: string;
     lastName: string;
 }

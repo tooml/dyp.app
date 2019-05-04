@@ -1,7 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { Match, SetResult } from 'src/app/contracts/model/Tournament';
-import { Store } from '@ngxs/store';
-import { TournamentState } from 'src/app/provider/tournament-store/tournament.state';
 
 @Component({
   selector: 'app-tournament-match-detail',
@@ -20,11 +18,11 @@ export class TournamentMatchDetailComponent implements OnInit {
 
   setResult: SetResult[];
 
-  constructor(private store: Store) { }
+  constructor() { }
 
 
   ngOnInit() {
-    this.store.select(TournamentState.getSelectedMatch).subscribe(state => this.match = state.selectedMatch);
+    // this.store.select(TournamentState.getSelectedMatch).subscribe(state => this.match = state.selectedMatch);
 
     this.home = this.match.home;
     this.away = this.match.away;

@@ -1,12 +1,11 @@
+import { PersonsService } from '../../provider/service/persons.service';
 import { Component, OnInit } from '@angular/core';
-import { Person } from 'src/app/contracts/model/Person';
-import { Store } from '@ngxs/store';
-import { PersonState } from '../../provider/person-management-store/person.state';
-import { NewPerson, UpdatePerson, SelectPerson } from '../../provider/person-management-store/actions/persons.actions';
 import { Validators, FormGroup, FormControl } from '@angular/forms';
 import { ToastController } from '@ionic/angular';
+import { PersonsQuery } from 'src/app/provider/query/person-querys';
+import { Person } from 'src/app/contracts/model/Person';
 
-enum PersonEditMode {
+export enum PersonEditMode {
   NewPerson = 1,
   UpdatePerson = 2,
 }
@@ -17,6 +16,8 @@ enum PersonEditMode {
   styleUrls: ['./person-edit.component.scss']
 })
 export class PersonEditComponent implements OnInit {
+
+  person: Person;
 
   private editMode: PersonEditMode;
 
@@ -31,25 +32,23 @@ export class PersonEditComponent implements OnInit {
                       wins: 0,
                       looses: 0 };
 
-  constructor(private store: Store, public toastController: ToastController) {}
+  constructor(public toastController: ToastController, private personsQuery: PersonsQuery,
+              private service: PersonsService) { }
 
   ngOnInit(): void {
-    this.getPerson();
+    this.initPerson();
+    this.setFormValues(this.person);
+    this.setStatisticValues(this.person);
   }
 
-  getPerson() {
-    this.store.select(PersonState.getSelectedPersons).subscribe(state => {
-      this.setFormValues(state.selectedPerson);
-      this.setStatisticValues(state.selectedPerson);
-      this.setEditMode(state.newPerson);
-    });
-  }
+  initPerson() {
+    this.person  = this.personsQuery.getActive() as Person;
+    this.editMode = PersonEditMode.UpdatePerson;
 
-  setEditMode(newPerson: boolean) {
-    if (newPerson) {
+    if (this.person == null) {
+      this.person = this.service.createNewPerson();
+      this.service.setActive(this.person.id);
       this.editMode = PersonEditMode.NewPerson;
-    } else {
-      this.editMode = PersonEditMode.UpdatePerson;
     }
   }
 
@@ -71,18 +70,19 @@ export class PersonEditComponent implements OnInit {
   savePersonIntegration() {
     this.savePerson();
     this.showMessage('Saved');
-    this.store.dispatch(new SelectPerson({ person: this.personEidtForm.value, isNewPerson: false }));
-    this.getPerson();
+    // TODO
+    // this.store.dispatch(new SelectPerson({ person: this.personEidtForm.value, isNewPerson: false }));
   }
 
   savePerson() {
     switch (this.editMode) {
       case PersonEditMode.NewPerson: {
-        this.store.dispatch(new NewPerson(this.personEidtForm.value));
+        this.service.createPerson(this.personEidtForm.value);
         break;
       }
       case PersonEditMode.UpdatePerson: {
-        this.store.dispatch(new UpdatePerson(this.personEidtForm.value));
+        console.log(this.personEidtForm.value);
+        this.service.updatePerson(this.personEidtForm.value);
         break;
       }
     }

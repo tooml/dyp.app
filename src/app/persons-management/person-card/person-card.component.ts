@@ -1,8 +1,7 @@
-import { Store } from '@ngxs/store';
 import { Component, Input } from '@angular/core';
 import { Router } from '@angular/router';
 import { Person } from '../../contracts/model/Person';
-import { SelectPerson } from '../../provider/person-management-store/actions/persons.actions';
+import { PersonsService } from '../../provider/service/persons.service';
 
 @Component({
   selector: 'app-person-card',
@@ -10,12 +9,13 @@ import { SelectPerson } from '../../provider/person-management-store/actions/per
   styleUrls: ['./person-card.component.scss']
 })
 export class PersonCardComponent {
+
   @Input() person: Person;
 
-  constructor(private router: Router, private store: Store) {}
+  constructor(private router: Router, private service: PersonsService) {}
 
   editPerson() {
-    this.store.dispatch(new SelectPerson({ person: this.person, isNewPerson: false }));
+    this.service.setActive(this.person.id);
     this.router.navigate(['persons', this.person.id]);
   }
 }

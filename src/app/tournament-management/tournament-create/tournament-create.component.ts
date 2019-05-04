@@ -1,9 +1,7 @@
-import { TournamentOptionState } from '../../provider/tournament-management-store/tournament.management.state';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, Validators, FormGroup, FormControl } from '@angular/forms';
 import { Router } from '@angular/router';
-import { Store } from '@ngxs/store';
-import { SetTournamentName } from '../../provider/tournament-management-store/actions/tournament.management.actions';
+import { TournamentManagementService } from '../tournament-management.service';
 
 @Component({
   selector: 'app-tournament-create',
@@ -12,20 +10,21 @@ import { SetTournamentName } from '../../provider/tournament-management-store/ac
 })
 export class TournamentCreateComponent implements OnInit {
 
-  name: string;
+  name = '';
 
   tournamentCreateForm = new FormGroup({
     name: new FormControl('', [ Validators.required, Validators.minLength(5) ])
   });
 
-  constructor(private formBuilder: FormBuilder, private router: Router, private store: Store) { }
+  constructor(private formBuilder: FormBuilder, private router: Router, private service: TournamentManagementService) { }
 
   ngOnInit() {
-    this.getTournamentName();
+    // this.getTournamentName();
   }
 
   getTournamentName() {
-    this.store.select(TournamentOptionState.getTournamentOptions).subscribe(options => this.name = options.name);
+    // this.store.select(TournamentOptionState.getTournamentOptions).subscribe(options => this.name = options.name);
+    this.name = this.service.getTournamentOptions().name;
   }
 
   setFormValues(name: string) {
@@ -35,8 +34,8 @@ export class TournamentCreateComponent implements OnInit {
   }
 
   setTournamentName() {
-    this.store.dispatch(new SetTournamentName(this.tournamentCreateForm.get('name').value));
-    this.getTournamentName();
+    this.service.setTournamentName(this.tournamentCreateForm.get('name').value);
+    // Todo evtl name nochmal setzen, wegen formular
     this.router.navigate(['create', 'options']);
   }
 }
