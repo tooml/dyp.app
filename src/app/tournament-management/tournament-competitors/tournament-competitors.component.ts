@@ -1,8 +1,11 @@
+import { PersonsService } from './../../provider/service/persons.service';
 import { Component, OnInit } from '@angular/core';
-import { PersonSelection } from '../ui-data/PersonSelection';
 import { Router } from '@angular/router';
-import { TournamentManagementService } from '../tournament-management.service';
-import { PersonsService } from 'src/app/provider/service/persons.service';
+import { Competitor } from 'src/app/provider/store/person-store';
+import { PersonsQuery } from 'src/app/provider/query/person-querys';
+import { TournamentService } from 'src/app/provider/service/tournament-service';
+import { TournamentPrepQuery } from 'src/app/provider/query/tournament-prep-query';
+import { TournamentOptions } from 'src/app/provider/store/tournament-prep-store';
 
 @Component({
   selector: 'app-tournament-competitors',
@@ -11,32 +14,31 @@ import { PersonsService } from 'src/app/provider/service/persons.service';
 })
 export class TournamentCompetitorsComponent implements OnInit {
 
-  persons: PersonSelection[];
+  competitors: Competitor[];
 
-  constructor(private router: Router, private managementService: TournamentManagementService, private personsService: PersonsService) { }
+  constructor(private router: Router, private personsQuery: PersonsQuery,
+              private personService: PersonsService, private tournamentService: TournamentService,
+              private tournamentQuery: TournamentPrepQuery) { }
 
   ngOnInit() {
-    // this.store.select(state => state.persons.persons).subscribe(persons => {
-    //    this.persons = persons.map(person => ({ person: person, selected: false }));
-    //  });
+    if (this.personsQuery.getCount() === 0) {
+      this.personService.loadPersons();
+    }
 
-    // this.personsService.getPersons().subscribe(persons => {
-    //   this.persons = persons.map(person => ({ person: person, selected: false }));
-    // });
+    this.personsQuery.initCompetitors().subscribe(competitors => this.competitors = competitors);
   }
 
-  competitorsCountValidation() {
-    return this.getCompetitors().length >= 2;
+  competitorsCountValidation(): boolean {
+    return this.competitors.filter(competitor => competitor.selected).length >= 2;
   }
 
   createTournament() {
-    const competitors = this.getCompetitors().map(p => p.person);
-    // this.store.dispatch(new SetCompetitors(competitors));
-    this.managementService.setTournamentCompetitors(competitors);
-    this.router.navigate(['tournament']);
-  }
+    const competitorIds = this.competitors.filter(competitor => competitor.selected)
+                                          .map(competitor => competitor.person.id);
 
-  private getCompetitors() {
-    return this.persons.filter(person => person.selected);
+    const options = this.tournamentQuery.getActive() as TournamentOptions;
+
+    this.tournamentService.createTournament(options, competitorIds);
+    this.router.navigate(['tournament']);
   }
 }

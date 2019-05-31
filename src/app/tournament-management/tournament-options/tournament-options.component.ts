@@ -1,8 +1,11 @@
+import { GameOptions } from './../../provider/store/tournament-prep-store';
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder } from '@angular/forms';
 import { TableOptions, Option, SetOptions, PointOptions } from '../ui-data/UiOptions';
 import { Router } from '@angular/router';
-import { TournamentManagementService } from '../tournament-management.service';
+import { TournamentPrepQuery } from 'src/app/provider/query/tournament-prep-query';
+import { TournamentOptions } from 'src/app/provider/store/tournament-prep-store';
+import { TournamentPrepService } from 'src/app/provider/service/tournament-prep.service';
 
 @Component({
   selector: 'app-tournament-options',
@@ -30,7 +33,8 @@ export class TournamentOptionsComponent implements OnInit {
 
   optionsForm: FormGroup;
 
-  constructor(private formBuilder: FormBuilder, private router: Router, private service: TournamentManagementService) {
+  constructor(private formBuilder: FormBuilder, private router: Router, private query: TournamentPrepQuery,
+              private service: TournamentPrepService) {
     this.tableOptions = new TableOptions().tables;
     this.setOptions = new SetOptions().sets;
     this.pointOptions = new PointOptions().points;
@@ -38,42 +42,24 @@ export class TournamentOptionsComponent implements OnInit {
   }
 
   ngOnInit() {
-    // this.store.select(TournamentOptionState.getTournamentOptions).subscribe(options => {
-    //   this.selectedTableOption = this.tableOptions[options.gameOptions.tables - 1];
-    //   this.selectedSetOption = this.setOptions[options.gameOptions.sets - 1];
-    //   this.selectedPointOption = this.pointOptions[options.gameOptions.points - 1];
-    //   this.selectedTiedPointOption = this.tiedPointOptions[options.gameOptions.pointsTied - 1];
-    //   this.tied = options.gameOptions.tied;
-    //   this.walkover = options.gameOptions.walkover;
-    //   this.fairLots = options.gameOptions.fairLots;
-    // });
+    const options = this.query.getActive() as TournamentOptions;
 
-    const gameOptions = this.service.getTournamentOptions().gameOptions;
+    console.log(options);
 
-    this.selectedTableOption = this.tableOptions[gameOptions.tables - 1];
-    this.selectedSetOption = this.setOptions[gameOptions.sets - 1];
-    this.selectedPointOption = this.pointOptions[gameOptions.points - 1];
-    this.selectedTiedPointOption = this.tiedPointOptions[gameOptions.pointsTied - 1];
-    this.tied = gameOptions.tied;
-    this.walkover = gameOptions.walkover;
-    this.fairLots = gameOptions.fairLots;
+    this.selectedTableOption = this.tableOptions[options.gameOptions.tables - 1];
+    this.selectedSetOption = this.setOptions[options.gameOptions.sets - 1];
+    this.selectedPointOption = this.pointOptions[options.gameOptions.points - 1];
+    this.selectedTiedPointOption = this.tiedPointOptions[options.gameOptions.pointsTied - 1];
+    this.tied = options.gameOptions.tied;
+    this.walkover = options.gameOptions.walkover;
+    this.fairLots = options.gameOptions.fairLots;
 
     this.optionsForm = this.formBuilder.group({
     });
   }
 
   createOptions() {
-    // this.store.dispatch(new SetGameOptoins({
-    //   tables: this.selectedTableOption.id,
-    //   sets: this.selectedSetOption.id,
-    //   points: this.selectedPointOption.id,
-    //   pointsTied: this.selectedTiedPointOption.id,
-    //   tied: this.tied,
-    //   walkover: this.walkover,
-    //   fairLots: this.fairLots
-    // }));
-
-    this.service.setTournamentGameOptions({
+    const gameOptions: GameOptions = {
       tables: this.selectedTableOption.id,
       sets: this.selectedSetOption.id,
       points: this.selectedPointOption.id,
@@ -81,8 +67,9 @@ export class TournamentOptionsComponent implements OnInit {
       tied: this.tied,
       walkover: this.walkover,
       fairLots: this.fairLots
-    });
+    };
 
+    this.service.updateOptions(gameOptions);
     this.router.navigate(['create', 'competitors']);
   }
 }

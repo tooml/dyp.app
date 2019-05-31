@@ -23,7 +23,8 @@ const routes: Routes = [
 ];
 
 @NgModule({
-  declarations: [TournamentRoundListComponent, TournamentRoundComponent, TournamentMatchComponent, TournamentMatchDetailComponent, TournamentMatchSetComponent],
+  declarations: [TournamentRoundListComponent, TournamentRoundComponent, TournamentMatchComponent, 
+                 TournamentMatchDetailComponent, TournamentMatchSetComponent],
   imports: [
     CommonModule,
     IonicModule,

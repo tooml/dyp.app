@@ -24,12 +24,12 @@ export class AppComponent {
     {
       title: 'Turnier erstellen',
       url: '/create',
-      icon: 'trophy'
+      icon: 'construct'
     },
     {
       title: 'Turnier',
       url: '/tournament',
-      icon: 'football'
+      icon: 'trophy'
     }
   ];
 

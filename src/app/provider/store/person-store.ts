@@ -1,12 +1,16 @@
 import { Injectable } from '@angular/core';
-import { Person } from '../../contracts/model/Person';
 import { EntityState, StoreConfig, EntityStore } from '@datorama/akita';
+import { Person } from 'src/app/contracts/messages/PersonStockQueryResult';
 
 // https://medium.com/@rmcavin/my-favorite-state-management-technique-in-angular-rxjs-behavior-subjects-49f18daa31a7
 
-export interface PersonsState extends EntityState<Person> {
 
+export interface Competitor {
+  person: Person;
+  selected: boolean;
 }
+
+export interface PersonsState extends EntityState<Person> { }
 
 @Injectable({ providedIn: 'root' })
 

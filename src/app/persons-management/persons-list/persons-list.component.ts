@@ -2,8 +2,8 @@ import { PersonsService } from '../../provider/service/persons.service';
 import { Component, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Router } from '@angular/router';
-import { Person } from 'src/app/contracts/model/Person';
 import { PersonsQuery } from 'src/app/provider/query/person-querys';
+import { Person } from 'src/app/contracts/messages/PersonStockQueryResult';
 
 @Component({
   selector: 'app-persons-list',
@@ -14,7 +14,7 @@ export class PersonsListComponent implements OnInit {
 
   persons: Observable<Person[]>;
 
-  constructor(private router: Router, private personsQuery: PersonsQuery, private service: PersonsService) {}
+  constructor(private router: Router, private personsQuery: PersonsQuery, private service: PersonsService) { }
 
   ngOnInit(): void {
     this.service.loadPersons();
@@ -22,7 +22,9 @@ export class PersonsListComponent implements OnInit {
   }
 
   addPerson() {
-    this.service.setActive(null);
-    this.router.navigate(['persons', 'new']);
+    this.service.newPerson().subscribe(person => {
+      this.service.setActive(person);
+      this.router.navigate(['persons', person.id]);
+    });
   }
 }

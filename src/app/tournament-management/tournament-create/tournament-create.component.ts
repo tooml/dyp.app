@@ -1,7 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, Validators, FormGroup, FormControl } from '@angular/forms';
 import { Router } from '@angular/router';
-import { TournamentManagementService } from '../tournament-management.service';
+import { TournamentPrepService } from 'src/app/provider/service/tournament-prep.service';
+import { TournamentPrepQuery } from 'src/app/provider/query/tournament-prep-query';
+import { TournamentOptions } from 'src/app/provider/store/tournament-prep-store';
 
 @Component({
   selector: 'app-tournament-create',
@@ -10,21 +12,19 @@ import { TournamentManagementService } from '../tournament-management.service';
 })
 export class TournamentCreateComponent implements OnInit {
 
-  name = '';
+  tournamentOptions: TournamentOptions;
 
   tournamentCreateForm = new FormGroup({
-    name: new FormControl('', [ Validators.required, Validators.minLength(5) ])
+    tournamentName: new FormControl('', [ Validators.required, Validators.minLength(5) ])
   });
 
-  constructor(private formBuilder: FormBuilder, private router: Router, private service: TournamentManagementService) { }
+  constructor(private formBuilder: FormBuilder, private router: Router,
+              private service: TournamentPrepService, private query: TournamentPrepQuery) { }
 
   ngOnInit() {
-    // this.getTournamentName();
-  }
-
-  getTournamentName() {
-    // this.store.select(TournamentOptionState.getTournamentOptions).subscribe(options => this.name = options.name);
-    this.name = this.service.getTournamentOptions().name;
+    this.service.init();
+    this.tournamentOptions = this.query.getActive() as TournamentOptions;
+    this.setFormValues(this.tournamentOptions.name);
   }
 
   setFormValues(name: string) {
@@ -34,8 +34,7 @@ export class TournamentCreateComponent implements OnInit {
   }
 
   setTournamentName() {
-    this.service.setTournamentName(this.tournamentCreateForm.get('name').value);
-    // Todo evtl name nochmal setzen, wegen formular
+    this.service.updateName(this.tournamentCreateForm.get('tournamentName').value);
     this.router.navigate(['create', 'options']);
   }
 }

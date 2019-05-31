@@ -1,5 +1,6 @@
-import { Component, Input, Output, EventEmitter } from '@angular/core';
-import { PersonSelection } from '../ui-data/PersonSelection';
+import { Competitor } from 'src/app/provider/store/person-store';
+import { Component, Input } from '@angular/core';
+import { PersonsService } from 'src/app/provider/service/persons.service';
 
 @Component({
   selector: 'app-tournament-person-card',
@@ -8,7 +9,7 @@ import { PersonSelection } from '../ui-data/PersonSelection';
 })
 export class TournamentPersonCardComponent  {
 
-  @Input() personSelection: PersonSelection;
+  @Input() competitor: Competitor;
 
   constructor() { }
 }

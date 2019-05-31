@@ -1,12 +1,5 @@
-import { Person } from './Person';
-
-export interface TournamentOptions {
+export interface CreateTournamentCommand {
     name: string;
-    gameOptions: GameOptions;
-    competitors: Person[];
-}
-
-export interface GameOptions {
     tables: number;
     sets: number;
     points: number;
@@ -14,4 +7,5 @@ export interface GameOptions {
     tied: boolean;
     walkover: boolean;
     fairLots: boolean;
+    competitorsIds: string[];
 }

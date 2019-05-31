@@ -9,8 +9,8 @@
 
 <ion-content>
 
-  <ion-list lines="none" *ngFor="let person of persons">
-    <app-tournament-person-card [personSelection]="person">
+  <ion-list lines="none" *ngFor="let competitor of competitors">
+    <app-tournament-person-card [competitor]="competitor">
     </app-tournament-person-card>
   </ion-list>
 
