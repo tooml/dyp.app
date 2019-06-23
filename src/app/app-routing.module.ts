@@ -16,7 +16,11 @@ const routes: Routes = [
     loadChildren: './persons-management/persons-management.module#PersonsManagementModule'
   },
   {
-    path: 'create',
+    path: 'management',
+    loadChildren: './tournament-management/tournament-management.module#TournamentManagementModule'
+  },
+  {
+    path: 'management',
     loadChildren: './tournament-management/tournament-management.module#TournamentManagementModule'
   },
   {

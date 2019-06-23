@@ -1,5 +1,5 @@
 import { Component, Input } from '@angular/core';
-import { Round } from 'src/app/contracts/model/Tournament';
+import { Round } from 'src/app/contracts/messages/TournamentQueryResult';
 
 @Component({
   selector: 'app-tournament-round',

@@ -1,5 +1,6 @@
-import { Round, Tournament } from '../../contracts/model/Tournament';
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import { GameQuery } from 'src/app/provider/query/game-query';
+import { Round } from 'src/app/contracts/messages/TournamentQueryResult';
 import { Observable } from 'rxjs';
 
 @Component({
@@ -7,12 +8,13 @@ import { Observable } from 'rxjs';
   templateUrl: './tournament-round-list.component.html',
   styleUrls: ['./tournament-round-list.component.scss']
 })
-export class TournamentRoundListComponent {
+export class TournamentRoundListComponent implements OnInit {
 
-  // @Select(TournamentState.getPersons) rounds: Observable<Round[]>;
+  rounds: Observable<Round[]>;
 
-  tournament: Observable<Tournament>;
+  constructor(private query: GameQuery) { }
 
-  constructor() {
+  ngOnInit() {
+    this.rounds = this.query.selectRounds();
   }
 }

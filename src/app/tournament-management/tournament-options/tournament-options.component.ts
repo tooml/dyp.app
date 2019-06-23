@@ -2,7 +2,7 @@ import { GameOptions } from './../../provider/store/tournament-prep-store';
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder } from '@angular/forms';
 import { TableOptions, Option, SetOptions, PointOptions } from '../ui-data/UiOptions';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 import { TournamentPrepQuery } from 'src/app/provider/query/tournament-prep-query';
 import { TournamentOptions } from 'src/app/provider/store/tournament-prep-store';
 import { TournamentPrepService } from 'src/app/provider/service/tournament-prep.service';
@@ -33,8 +33,8 @@ export class TournamentOptionsComponent implements OnInit {
 
   optionsForm: FormGroup;
 
-  constructor(private formBuilder: FormBuilder, private router: Router, private query: TournamentPrepQuery,
-              private service: TournamentPrepService) {
+  constructor(private formBuilder: FormBuilder, private router: Router, private route: ActivatedRoute,
+              private query: TournamentPrepQuery,  private service: TournamentPrepService) {
     this.tableOptions = new TableOptions().tables;
     this.setOptions = new SetOptions().sets;
     this.pointOptions = new PointOptions().points;
@@ -59,6 +59,7 @@ export class TournamentOptionsComponent implements OnInit {
   }
 
   createOptions() {
+
     const gameOptions: GameOptions = {
       tables: this.selectedTableOption.id,
       sets: this.selectedSetOption.id,
@@ -70,6 +71,6 @@ export class TournamentOptionsComponent implements OnInit {
     };
 
     this.service.updateOptions(gameOptions);
-    this.router.navigate(['create', 'competitors']);
+    this.router.navigate(['../competitors'], { relativeTo: this.route });
   }
 }

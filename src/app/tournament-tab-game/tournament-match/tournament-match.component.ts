@@ -1,6 +1,6 @@
 import { Component, Input } from '@angular/core';
-import { Match } from 'src/app/contracts/model/Tournament';
-import { Router, ActivatedRoute } from '@angular/router';
+import { Router, ActivatedRoute, Route } from '@angular/router';
+import { Match } from 'src/app/contracts/messages/TournamentQueryResult';
 
 @Component({
   selector: 'app-tournament-match',
@@ -13,12 +13,9 @@ export class TournamentMatchComponent {
 
   result_display = 'Ergebnis wählen';
 
-  constructor(private router: Router) { }
+  constructor(private router: Router, private route: ActivatedRoute) { }
 
   editMatchResult() {
-    // this.store.dispatch(new SelectMatch(this.match));
-    // this.router.navigate(['edit'], {relativeTo: this.route});
-    // this.router.navigate(['tournament', 'game', 'edit'], { queryParams: { match: this.match }} );
-    this.router.navigate(['tournament', 'game', 'edit']);
+    this.router.navigate(['../edit'], { relativeTo: this.route,  queryParams: { id: this.match.id } });
   }
 }

@@ -7,10 +7,11 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { TournamentOptionsComponent } from './tournament-options/tournament-options.component';
 import { TournamentCompetitorsComponent } from './tournament-competitors/tournament-competitors.component';
 import { TournamentPersonCardComponent } from './tournament-person-card/tournament-person-card.component';
+import { TournamentLoadComponent } from './tournament-load/tournament-load.component';
 
 const routes: Routes = [
   {
-    path: '',
+    path: 'create',
     component: TournamentCreateComponent
   },
   {
@@ -20,6 +21,10 @@ const routes: Routes = [
   {
     path: 'competitors',
     component: TournamentCompetitorsComponent
+  },
+  {
+    path: 'load',
+    component: TournamentLoadComponent
   }
 ];
 
@@ -28,8 +33,9 @@ const routes: Routes = [
     TournamentCreateComponent,
     TournamentOptionsComponent,
     TournamentCompetitorsComponent,
-    TournamentPersonCardComponent
-   ],
+    TournamentPersonCardComponent,
+    TournamentLoadComponent
+  ],
   imports: [
     CommonModule,
     IonicModule,

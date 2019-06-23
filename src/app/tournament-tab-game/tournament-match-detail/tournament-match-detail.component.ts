@@ -1,5 +1,8 @@
+import { ActivatedRoute } from '@angular/router';
 import { Component, OnInit } from '@angular/core';
-import { Match, SetResult } from 'src/app/contracts/model/Tournament';
+import { Match, SetResult } from 'src/app/contracts/messages/TournamentQueryResult';
+import { GameQuery } from 'src/app/provider/query/game-query';
+
 
 @Component({
   selector: 'app-tournament-match-detail',
@@ -18,18 +21,22 @@ export class TournamentMatchDetailComponent implements OnInit {
 
   setResult: SetResult[];
 
-  constructor() { }
+  constructor(private route: ActivatedRoute, private query: GameQuery) { }
 
 
   ngOnInit() {
-    // this.store.select(TournamentState.getSelectedMatch).subscribe(state => this.match = state.selectedMatch);
+    const id = this.route.snapshot.paramMap.get('id');
+    this.query.selectMatch(id).subscribe(m => {
 
-    this.home = this.match.home;
-    this.away = this.match.away;
+      this.match = m;
+      this.home = this.match.home;
+      this.away = this.match.away;
 
-    this.setResult = this.match.sets;
+      this.setResult = this.match.sets;
 
-    this.calculateSetResult();
+      this.calculateSetResult();
+
+    });
   }
 
   calculateSetResult() {

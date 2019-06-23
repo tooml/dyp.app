@@ -1,0 +1,32 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+    <ion-title> Turniere </ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+
+  <ion-list lines="none" *ngFor="let tournamentsInfo of tournamentsInfos | async">
+    <ion-item>
+        <ion-icon class="ion-margin-start, ion-margin-end" name="trophy"></ion-icon> 
+      <ion-label>
+        <ion-text>
+          <h2>{{ tournamentsInfo.name }}</h2>
+        </ion-text>
+        <ion-text>
+            <p>{{ tournamentsInfo.created | date:'shortDate' }}</p>
+        </ion-text>
+        </ion-label>  
+        <ion-button slot="end" (click)="deleteTournament(tournamentsInfo)">
+              <ion-icon name="trash"></ion-icon>
+        </ion-button>
+        <ion-button slot="end" (click)="loadTournament(tournamentsInfo)">
+              <ion-icon name="checkmark"></ion-icon>
+        </ion-button>
+    </ion-item>
+  </ion-list>
+  
+</ion-content>

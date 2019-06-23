@@ -3,7 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { Competitor } from 'src/app/provider/store/person-store';
 import { PersonsQuery } from 'src/app/provider/query/person-querys';
-import { TournamentService } from 'src/app/provider/service/tournament-service';
+import { TournamentService } from 'src/app/provider/service/tournament.service';
 import { TournamentPrepQuery } from 'src/app/provider/query/tournament-prep-query';
 import { TournamentOptions } from 'src/app/provider/store/tournament-prep-store';
 
@@ -39,6 +39,6 @@ export class TournamentCompetitorsComponent implements OnInit {
     const options = this.tournamentQuery.getActive() as TournamentOptions;
 
     this.tournamentService.createTournament(options, competitorIds);
-    this.router.navigate(['tournament']);
+    // this.router.navigate(['tournament', 'game']);
   }
 }

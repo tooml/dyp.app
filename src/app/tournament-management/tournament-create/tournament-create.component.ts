@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, Validators, FormGroup, FormControl } from '@angular/forms';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 import { TournamentPrepService } from 'src/app/provider/service/tournament-prep.service';
 import { TournamentPrepQuery } from 'src/app/provider/query/tournament-prep-query';
 import { TournamentOptions } from 'src/app/provider/store/tournament-prep-store';
@@ -18,7 +18,7 @@ export class TournamentCreateComponent implements OnInit {
     tournamentName: new FormControl('', [ Validators.required, Validators.minLength(5) ])
   });
 
-  constructor(private formBuilder: FormBuilder, private router: Router,
+  constructor(private formBuilder: FormBuilder, private router: Router, private route: ActivatedRoute,
               private service: TournamentPrepService, private query: TournamentPrepQuery) { }
 
   ngOnInit() {
@@ -35,6 +35,6 @@ export class TournamentCreateComponent implements OnInit {
 
   setTournamentName() {
     this.service.updateName(this.tournamentCreateForm.get('tournamentName').value);
-    this.router.navigate(['create', 'options']);
+    this.router.navigate(['../options'], { relativeTo: this.route });
   }
 }

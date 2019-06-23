@@ -1,5 +1,4 @@
-
-export interface Tournament {
+export interface TournamentQueryResult {
     id: string;
     name: string;
     rounds: Round[];
@@ -23,4 +22,10 @@ export enum SetResult {
     Home = 1,
     Tied = 2,
     Away = 3
+}
+
+export interface Game {
+    id: string;
+    name: string;
+    rounds: Round[];
 }

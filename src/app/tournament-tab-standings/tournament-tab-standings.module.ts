@@ -1,13 +1,22 @@
+import { IonicModule } from '@ionic/angular';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { IonicModule } from '@ionic/angular';
-import { RouterModule } from '@angular/router';
+import { Routes, RouterModule } from '@angular/router';
+import { TournamentRoundListComponent } from '../tournament-tab-game/tournament-round-list/tournament-round-list.component';
+
+const routes: Routes = [
+  {
+    path: '', component: TournamentRoundListComponent,
+  }
+];
 
 @NgModule({
-  declarations: [],
+  declarations: [TournamentRoundListComponent],
   imports: [
+    CommonModule,
     IonicModule,
-    CommonModule
+    RouterModule.forChild(routes)
   ]
 })
+
 export class TournamentTabStandingsModule { }

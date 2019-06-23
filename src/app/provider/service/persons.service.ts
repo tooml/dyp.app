@@ -7,7 +7,6 @@ import { PersonStockQueryResult, Person } from 'src/app/contracts/messages/Perso
 import { NewPersonQueryResult } from 'src/app/contracts/messages/NewPersonQueryResult';
 import { Observable } from 'rxjs';
 import { StorePersonCommand } from 'src/app/contracts/messages/StorePersonCommand';
-import { TournamentPrepStore } from '../store/tournament-prep-store';
 
 @Injectable({
   providedIn: 'root'

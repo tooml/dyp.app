@@ -10,20 +10,21 @@ import { TournamentMatchSetComponent } from './tournament-match-set/tournament-m
 
 const routes: Routes = [
   {
-    path: '',
-    children: [
-      {
-        path: '', component: TournamentRoundListComponent,
-      },
-      {
-        path: 'edit', component: TournamentMatchDetailComponent
-      }
-    ]
+    path: 'rounds/:id', component: TournamentRoundListComponent,
+  },
+  {
+    path: 'rounds', component: TournamentRoundListComponent,
+  },
+  {
+    path: 'edit/:id', component: TournamentMatchDetailComponent,
+  },
+  {
+    path: 'edit', component: TournamentMatchDetailComponent,
   }
 ];
 
 @NgModule({
-  declarations: [TournamentRoundListComponent, TournamentRoundComponent, TournamentMatchComponent, 
+  declarations: [TournamentRoundListComponent, TournamentRoundComponent, TournamentMatchComponent,
                  TournamentMatchDetailComponent, TournamentMatchSetComponent],
   imports: [
     CommonModule,
@@ -31,4 +32,5 @@ const routes: Routes = [
     RouterModule.forChild(routes)
   ]
 })
+
 export class TournamentTabGameModule { }
