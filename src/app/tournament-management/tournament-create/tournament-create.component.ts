@@ -2,8 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, Validators, FormGroup, FormControl } from '@angular/forms';
 import { Router, ActivatedRoute } from '@angular/router';
 import { TournamentPrepService } from 'src/app/provider/service/tournament-prep.service';
-import { TournamentPrepQuery } from 'src/app/provider/query/tournament-prep-query';
-import { TournamentOptions } from 'src/app/provider/store/tournament-prep-store';
+// import { TournamentPrepQuery } from 'src/app/provider/query/tournament-prep-query';
+// import { TournamentOptions } from 'src/app/provider/store/tournament-prep-store';
 
 @Component({
   selector: 'app-tournament-create',
@@ -12,19 +12,19 @@ import { TournamentOptions } from 'src/app/provider/store/tournament-prep-store'
 })
 export class TournamentCreateComponent implements OnInit {
 
-  tournamentOptions: TournamentOptions;
+  // tournamentOptions: TournamentOptions;
 
   tournamentCreateForm = new FormGroup({
     tournamentName: new FormControl('', [ Validators.required, Validators.minLength(5) ])
   });
 
   constructor(private formBuilder: FormBuilder, private router: Router, private route: ActivatedRoute,
-              private service: TournamentPrepService, private query: TournamentPrepQuery) { }
+              private service: TournamentPrepService) { }
 
   ngOnInit() {
-    this.service.init();
-    this.tournamentOptions = this.query.getActive() as TournamentOptions;
-    this.setFormValues(this.tournamentOptions.name);
+    // this.service.init();
+    // this.tournamentOptions = this.query.getActive() as TournamentOptions;
+    // this.setFormValues(this.tournamentOptions.name);
   }
 
   setFormValues(name: string) {

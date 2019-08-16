@@ -1,4 +1,4 @@
-import { Competitor } from 'src/app/provider/store/person-store';
+// import { Competitor } from 'src/app/provider/store/person-store';
 import { Component, Input } from '@angular/core';
 import { PersonsService } from 'src/app/provider/service/persons.service';
 
@@ -9,7 +9,7 @@ import { PersonsService } from 'src/app/provider/service/persons.service';
 })
 export class TournamentPersonCardComponent  {
 
-  @Input() competitor: Competitor;
+  // @Input() competitor: Competitor;
 
   constructor() { }
 }

@@ -1,5 +1,5 @@
+import { PersonQueryResult } from './PersonStockQueryResult';
+
 export class NewPersonQueryResult {
-    id: string;
-    firstName: string;
-    lastName: string;
+    person: PersonQueryResult;
 }

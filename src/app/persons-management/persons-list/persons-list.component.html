@@ -9,7 +9,7 @@
 
 <ion-content>
 
-  <ion-list lines="none" *ngFor="let person of persons | async">
+  <ion-list lines="none" *ngFor="let person of (store.getState$() | async).persons">
     <app-person-card [person]="person"></app-person-card>
   </ion-list>
 

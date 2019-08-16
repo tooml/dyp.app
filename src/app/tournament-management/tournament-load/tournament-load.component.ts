@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { TournamentsInfoQuery } from 'src/app/provider/query/tournaments-info-query';
 import { TournamentsIfnoService } from 'src/app/provider/service/tournament-info.service';
 import { TournamentInfo } from 'src/app/contracts/messages/TournamentStockQueryResult';
 import { Observable } from 'rxjs';
@@ -15,12 +14,12 @@ export class TournamentLoadComponent implements OnInit {
 
   tournamentsInfos: Observable<TournamentInfo[]>;
 
-  constructor(private router: Router, private tournamentsInfoQuery: TournamentsInfoQuery,
+  constructor(private router: Router,
               private tournamentInfoService: TournamentsIfnoService, private tournamentService: TournamentService) { }
 
   ngOnInit() {
     this.tournamentInfoService.loadTournamentsInfos();
-    this.tournamentsInfos = this.tournamentsInfoQuery.selectAll();
+    // this.tournamentsInfos = this.tournamentsInfoQuery.selectAll();
   }
 
   deleteTournament(tournamentInfo: TournamentInfo) {

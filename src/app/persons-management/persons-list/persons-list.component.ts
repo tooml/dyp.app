@@ -2,8 +2,9 @@ import { PersonsService } from '../../provider/service/persons.service';
 import { Component, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Router } from '@angular/router';
-import { PersonsQuery } from 'src/app/provider/query/person-querys';
-import { Person } from 'src/app/contracts/messages/PersonStockQueryResult';
+import { LoadingController } from '@ionic/angular';
+import { PersonStore } from 'src/app/provider/stores/persons/person-store';
+import { Person } from 'src/app/provider/stores/persons/person-state';
 
 @Component({
   selector: 'app-persons-list',
@@ -14,17 +15,16 @@ export class PersonsListComponent implements OnInit {
 
   persons: Observable<Person[]>;
 
-  constructor(private router: Router, private personsQuery: PersonsQuery, private service: PersonsService) { }
+  constructor(private router: Router, private store: PersonStore) { }
 
   ngOnInit(): void {
-    this.service.loadPersons();
-    this.persons = this.personsQuery.selectAll();
+    this.store.loadPersons();
   }
 
   addPerson() {
-    this.service.newPerson().subscribe(person => {
-      this.service.setActive(person);
-      this.router.navigate(['persons', person.id]);
-    });
+    this.store.getPersonTemplate().subscribe(person => {
+        this.store.setSelected(person);
+        this.router.navigate(['persons', person.id]);
+      });
   }
 }

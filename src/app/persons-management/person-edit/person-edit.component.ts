@@ -1,8 +1,10 @@
-import { PersonsService } from '../../provider/service/persons.service';
 import { Component, OnInit } from '@angular/core';
 import { Validators, FormGroup, FormControl } from '@angular/forms';
 import { ToastController } from '@ionic/angular';
-import { Person } from 'src/app/contracts/messages/PersonStockQueryResult';
+import { Person } from 'src/app/provider/stores/persons/person-state';
+import { PersonStore } from 'src/app/provider/stores/persons/person-store';
+import { Failure } from 'src/app/contracts/messages/CommandStatus';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-person-edit',
@@ -19,47 +21,42 @@ export class PersonEditComponent implements OnInit {
     lastName: new FormControl('')
   });
 
-  constructor(public toastController: ToastController, private service: PersonsService) { }
+  constructor(private router: Router, public toastController: ToastController, private store: PersonStore) { }
 
   ngOnInit(): void {
     this.initPerson();
   }
 
   initPerson() {
-    if (this.service.hasActive()) {
-      this.person = this.service.getActive();
-
-      this.personEidtForm.setValue({
-        id: this.person.id,
-        firstName: this.person.firstName,
-        lastName: this.person.lastName
-      });
+    if (this.store.hasSelected()) {
+      this.person = this.store.getSelected();
+        this.personEidtForm.setValue({
+          id: this.person.id,
+          firstName: this.person.firstName,
+          lastName: this.person.lastName
+        });
     } else {
-      this.personEidtForm.setValue({
-        id: null,
-        firstName: '',
-        lastName: ''
-      });
+      this.router.navigate(['persons']);
     }
   }
 
   savePersonIntegration() {
-    this.savePerson();
-    this.showMessage('Saved');
+    this.store.storePerson(this.personEidtForm.value).subscribe(result => {
+      if (result instanceof Failure) {
+        const error = result as Failure;
+        this.showMessage(error.errorMessage, 'danger');
+      } else {
+        this.showMessage('gespeichert', 'success');
+      }});
   }
 
-  savePerson() {
-    console.log(this.personEidtForm.value);
-    this.service.storePerson(this.personEidtForm.value);
-  }
-
-  async showMessage(text: string) {
+  async showMessage(text: string, color: string) {
     const toast = await this.toastController.create({
       message: text,
       duration: 1500,
       position: 'top',
       animated: true,
-      color: 'success',
+      color: color,
       translucent: true
     });
     toast.present();
